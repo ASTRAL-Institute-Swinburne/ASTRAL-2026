@@ -6,6 +6,8 @@ Gaia is a European Space Agency (ESA) space telescope that measures the **positi
 Download the CSV files within this folder to access Gaia Data.
 
 - `bright.csv` is a Gaia dataset of the brightest stars by apparent magnitude (how bright they are when we view them from Earth).
+- `gaia-askap-matches.csv` - stars that have been found using the ASKAP telescope (radio stars) and have been matched to Gaia stars.
+- `gaia-2.csv` and `gaia-3.csv` - more stellar data from Gaia.
 
 ## 1. Identifying a Star
 
