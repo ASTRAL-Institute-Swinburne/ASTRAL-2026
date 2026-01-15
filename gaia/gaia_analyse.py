@@ -49,6 +49,10 @@ Examples
 
   # Shortlist query on CSV file
   python gaia_local.py query "cone_eq 83.6331 22.0145 0.1; brighter_than 16; ruwe_less_than 1.4" --limit 50 --brightest-first --csv-file ./data/gaia_subset.csv
+
+  # Cone search using SIMBAD source name (resolves coordinates via SIMBAD TAP)
+  python gaia_local.py query "cone_source M1 0.5; brighter_than 18" --limit 100
+  python gaia_local.py query "cone_source NGC 6121 1.0; brighter_than 16" --limit 50 --brightest-first
 """
 
 from __future__ import annotations
@@ -70,6 +74,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import duckdb
+import pandas as pd
+import pyvo as vo
 
 
 def celestial_to_cartesian(ra: float, dec: float, parallax: float) -> Tuple[float, float, float]:
@@ -176,6 +182,44 @@ class DBConfig:
 def die(msg: str, code: int = 2) -> None:
     print(f"ERROR: {msg}", file=sys.stderr)
     sys.exit(code)
+
+
+def get_simbad_coordinates(target: str) -> Tuple[float, float]:
+    """
+    Query SIMBAD TAP service to get RA/Dec for a named target.
+
+    Parameters:
+    -----------
+    target : str
+        Target name (e.g., "M1", "NGC 6121", "Betelgeuse")
+
+    Returns:
+    --------
+    ra, dec : float
+        Right Ascension and Declination in degrees
+
+    Raises:
+    -------
+    ValueError if target not found or coordinates cannot be retrieved
+    """
+    print(f"Connecting to SIMBAD TAP to resolve '{target}'...")
+    service = vo.dal.TAPService("https://simbad.u-strasbg.fr/simbad/sim-tap")
+    command = f"SELECT ra, dec FROM basic JOIN ident ON oidref = oid WHERE id = '{target}'"
+    print(f"  Query: {command}")
+    print("  Sending request...")
+
+    try:
+        data = service.search(command)
+        if len(data) == 0:
+            raise ValueError(f"Target '{target}' not found in SIMBAD")
+
+        ra = float(data['ra'][0])
+        dec = float(data['dec'][0])
+        
+        print(f"  Resolved: RA={ra:.6f}, Dec={dec:.6f}")
+        return ra, dec
+    except Exception as e:
+        raise ValueError(f"Error getting RA/Dec of '{target}' from SIMBAD: {e}")
 
 
 def connect(cfg: DBConfig) -> psycopg.Connection:
@@ -379,6 +423,7 @@ def parse_shortlist_commands(cmds: str) -> Tuple[List[sql.SQL], List[object]]:
 
       cone_eq <ra> <dec> <radius>
       cone_gal <gl> <gb> <radius>
+      cone_source <name> <radius>  - resolve name via SIMBAD TAP
       brighter_than <value>
       fainter_than <value>
       further_than <value_in_pc>
@@ -419,6 +464,23 @@ def parse_shortlist_commands(cmds: str) -> Tuple[List[sql.SQL], List[object]]:
             rad = _as_float(toks[3], "radius")
             where_parts.append(sql.SQL("q3c_radial_query(l, b, %s, %s, %s)"))
             params.extend([gl, gb, rad])
+            continue
+
+        if ltoks[0] == "cone_source":
+            # cone_source <name> <radius>
+            # Name can contain spaces, so everything except last token is the name
+            if len(toks) < 3:
+                raise ValueError("cone_source requires: cone_source <name> <radius>")
+            rad = _as_float(toks[-1], "radius")
+            # Join all middle tokens as the source name
+            source_name = " ".join(toks[1:-1])
+            try:
+                ra, dec = get_simbad_coordinates(source_name)
+
+            except ValueError as e:
+                raise ValueError(f"cone_source error: {e}")
+            where_parts.append(sql.SQL("q3c_radial_query(ra, dec, %s, %s, %s)"))
+            params.extend([ra, dec, rad])
             continue
 
         # --- magnitude cuts ---
@@ -526,6 +588,54 @@ def parse_shortlist_commands(cmds: str) -> Tuple[List[sql.SQL], List[object]]:
         raise ValueError(f"Unknown/unsupported shortlist command: {raw!r}")
 
     return where_parts, params
+
+
+SHORTLIST_HELP = """
+Shortlist Query Commands
+========================
+
+Combine multiple commands with semicolons, e.g.:
+  "cone_source M4 0.5; brighter_than 16; ruwe_less_than 1.4"
+
+CONE SEARCHES (select one):
+  cone_eq <ra> <dec> <radius>      Cone search at equatorial coords (all in degrees)
+  cone_gal <l> <b> <radius>        Cone search at galactic coords (all in degrees)
+  cone_source <name> <radius>      Cone search using SIMBAD name resolution
+                                   Name can have spaces, e.g. "cone_source NGC 6121 1.0"
+
+MAGNITUDE CUTS:
+  brighter_than <mag>              phot_g_mean_mag < value (smaller = brighter)
+  fainter_than <mag>               phot_g_mean_mag > value
+
+DISTANCE CUTS (from parallax):
+  closer_than <pc>                 Distance < value parsecs
+  further_than <pc>                Distance > value parsecs
+
+COLOR CUTS:
+  color_greater_than <bp_rp>       BP-RP color > value (redder)
+  color_less_than <bp_rp>          BP-RP color < value (bluer)
+
+QUALITY CUTS:
+  ruwe_less_than <value>           RUWE < value (good astrometry typically < 1.4)
+  ruwe_greater_than <value>        RUWE > value
+  parallax_significance <value>    parallax/parallax_error > value
+  proper_motion_significance <v>   |pmra|/pmra_error > v AND |pmdec|/pmdec_error > v
+
+EXAMPLES:
+  # Stars within 0.5 deg of M4, brighter than mag 16
+  "cone_source M4 0.5; brighter_than 16"
+
+  # Stars near Orion Nebula with good astrometry
+  "cone_eq 83.82 -5.39 1.0; ruwe_less_than 1.4; parallax_significance 5"
+
+  # Nearby red stars
+  "closer_than 100; color_greater_than 1.5; brighter_than 12"
+"""
+
+
+def print_shortlist_help() -> None:
+    """Print help for shortlist query commands."""
+    print(SHORTLIST_HELP)
 
 
 # ----------------------------- Core commands -----------------------------
@@ -832,6 +942,10 @@ def cmd_query(
     brightest_first: bool,
     csv_file: Optional[str] = None,
 ) -> None:
+    if shortlist.strip().lower() == "help":
+        print_shortlist_help()
+        return
+
     try:
         where_parts, params = parse_shortlist_commands(shortlist)
     except ValueError as e:
@@ -1081,6 +1195,10 @@ def cmd_diagnose(
     scale : float
         Scale factor to apply to cartesian coordinates before writing
     """
+    if shortlist.strip().lower() == "help":
+        print_shortlist_help()
+        return
+
     try:
         where_parts, params = parse_shortlist_commands(shortlist)
     except ValueError as e:
