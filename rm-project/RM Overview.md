@@ -111,7 +111,8 @@ Successful RM characterization requires decomposing contributions with different
 |------|----------|--------------|
 | **PSRCHIVE** | Core data reduction | `rmfit` for RM, `pam` for correction, `pcmrm` for ionospheric subtraction |
 | **ionFR** | Ionospheric correction | CODE/JPLG/ROB TEC maps + IGRF; ~0.1 rad m⁻² accuracy |
-| **RMextract** | Ionospheric correction | TEC + WMM; LOFAR pipeline integration |
+| ~**RMextract**~ | ~Ionospheric correction~ | ~TEC + WMM; LOFAR pipeline integration~ |
+| **spinifex**| Ionospheric correction | Ionex maps and automatic RM calculation from sky coordinates |
 | **TEMPO2** | Timing analysis | Par file RM storage, FD parameters for profile evolution |
 | **enterprise** | Bayesian noise analysis | DMGP, DMX models; NANOGrav standard |
 | **RM synthesis** | Faraday spectrum | Wide bandwidth RM determination |
