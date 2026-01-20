@@ -10,8 +10,8 @@ df = pd.read_csv("../gaia/47Tuc/shortlist.csv")
 print("read file")
 df = df.dropna(subset=['phot_g_mean_mag', 'bp_rp'])
 print("dropped Nans")
-height = 2160*2
-width = 3840*2
+height = 2160
+width = 3840
 
 lmin = df['l'].min()
 lmax = df['l'].max()
