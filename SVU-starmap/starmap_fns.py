@@ -9,7 +9,7 @@ def lb_to_xy(l, b, height, width, lmin, lmax, bmin, bmax):
     lfactor = width/lrange
     bfactor = height/brange
        
-    return (int(bfactor*(b-bmin)), int(lfactor*(l)))
+    return (int(bfactor*(b-bmin)), int(lfactor*(l-lmin)))
 
 def BPRP_to_teff(bprp):
     """returns in kelvins"""
