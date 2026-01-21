@@ -1,3 +1,4 @@
+# Creating & running and SVU plugin
 #### How to make a script suitable for SVU:
 1. the script needs its output to be a jpg   
 	-- this is what SVU will display to the screen once the script has run
