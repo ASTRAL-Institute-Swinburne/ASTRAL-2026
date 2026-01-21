@@ -1,11 +1,11 @@
 #### How to make a script suitable for SVU:
-1. the script needs its output to be a jpg
-	this is what SVU will display to the screen once the script has run
-2. have the main function return the jpg's filename at the end of running the program
-	this signals the program has stopped running & tells SVU what name to display
-3. when saving your data as a jpg, join the filename with the variable {{DATA_PATH}} to create its path
-	SVU will substitute your library location into {{DATA_PATH}} so the image will save in the correct place within its system
-		e.g. ```img.save({{DATA_PATH}} + 'example_name.jpg')```
+1. the script needs its output to be a jpg   
+	-- this is what SVU will display to the screen once the script has run
+2. have the main function return the jpg's filename at the end of running the program   
+	-- this signals the program has stopped running & tells SVU what name to display
+3. when saving your data as a jpg, join the filename with the variable {{DATA_PATH}} to create its path   
+	-- SVU will substitute your library location into {{DATA_PATH}} so the image will save in the correct place within its system   
+   		e.g. ```img.save({{DATA_PATH}} + 'example_name.jpg')```
 
 #### How to add plugin into SVU:
 1. go into settings panel of SVU
