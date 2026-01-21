@@ -1,9 +1,3 @@
----
-tags:
-  - documentation
-  - 2026/01/21
----
-
 #### How to make a script suitable for SVU:
 1. the script needs its output to be a jpg
 	this is what SVU will display to the screen once the script has run
@@ -24,7 +18,5 @@ tags:
 1. if plugin name is not known, say 'show me plugins'
 2. say 'run {name of plugin}' 
 
-
-links: [[ASTRAL MOC]], [[SVU index]], [[Millipede index]]
 
 
