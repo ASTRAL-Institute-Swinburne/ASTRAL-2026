@@ -13,7 +13,32 @@ This program plots stars from a csv file on a black screen and is saved as a png
 3. Change the percentage, height and width to the desired values    
 4. Open the image (Which will be saved to the directory it was run from)   
 
+## Generating CSV Files for Globular Clusters
 
+#### What it does:
+This step uses a line of code in the terminal to generate CSV files for certain globular clusters, retrieved from a code that pulls data from a database with 1.811 billion stars. 
+
+#### How to Use it:
+From GitHub, a file under gaia is named gaia_analyse.py, after downloading this code, upload it onto your Visual Studio Code directory.     
+Open up a terminal in VS Code and insert the following code     
+python gaia_analyse.py --host 192.168.100.220 diagnose "cone_source name of globular cluster x" --output-dir name of globular cluster    
+Where it says ‘name of globular cluster’ replace it with the name of your chosen globular cluster. The ‘x’ represents the radius in degrees around the globular cluster, this can be changed based on your requirements.    
+After writing the required information, press enter and the code should run and generate a subfile in your VS Code directory named after the Globular Cluster. In that subfile there will be different graphs highlighting key information of the Globular CLuster. There will also be a CSV file named shortlist.csv, rename it to the name of the Globular Cluster.csv.     
+This same code can be used in the terminal for different Globular Clusters over and over again.     
+
+#### Key Mistakes:
+
+Make sure the gaia_analyse.py is saved within the directory uploaded on your VS Code.     
+If the gaia_analyse.py is under a subfile make sure that your terminal recognises where you're retrieving the information from, this can be done by typing ‘cd change name of subfile’. Now the terminal will retrieve the code from the correct file path.     
+Make sure you're connected to the Fourier Space wifi, the database from which the stars are retrieved from is connected to that WiFI, the code will not run unless your device is connected to Fourier Space.     
+
+#### Example (Assuming the gaia_analyse.py is in the correct place)     
+
+Computing Globular Cluster NGC1261 with a 1 degree radius. 
+
+```
+PS C:\Users\muhda\Desktop\fatimahswin> python gaia_analyse.py --host 192.168.100.220 diagnose "cone_source NGC1261 1" --output-dir NGC1261
+```
 
 ## starmap_fns.py Functions
 
