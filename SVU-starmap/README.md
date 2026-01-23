@@ -1,7 +1,23 @@
 # SVU Starmap creation
 
+## Matthew_map.py
+
+#### What it does:
+
+This program plots stars from a csv file on a black screen and is saved as a png file within the same file as Mathew_map.py . This program calculates the distance, brightness, and colour of the stars. The brighter stars should appear more vibrant, while the dim stars will be darker and less clear. All stars appear slightly blurry, to make their appearance more realistic. In addition, the stars are coloured to appear the same as their actual colours. The generated image should appear the same as if one was actually looking at the stars through a telescope.
+
+#### How to Use it:
+
+1. Download the file and download starmap_fns.py into the same folder as matthew_map.py    
+2. Change the df = read_csv("../gaia/47Tuc/shortlist.csv") to df = read_csv(“##YOUR CSV PATH##”)    
+3. Change the percentage, height and width to the desired values    
+4. Open the image (Which will be saved to the directory it was run from)   
+
+
 
 ## starmap_fns.py Functions
+
+This is a library of functions used within the matthew_map.py script.
 
 ### Teff To RGB:
 
@@ -93,17 +109,4 @@ for i in range(len(df)):
 
 # converting array into an RGB image
 img = img.fromarray(img_array, ‘RGB’)
-````
-
-## Matthew_map.py
-
-#### What it does:
-
-This program plots stars from a csv file on a black screen and is saved as a png file within the same file as Mathew_map.py . This program calculates the distance, brightness, and colour of the stars. The brighter stars should appear more vibrant, while the dim stars will be darker and less clear. All stars appear slightly blurry, to make their appearance more realistic. In addition, the stars are coloured to appear the same as their actual colours. The generated image should appear the same as if one was actually looking at the stars through a telescope.
-
-#### How to Use it:
-
-1. Download the file and download starmap_fns.py into the same folder as matthew_map.py    
-2. Change the df = read_csv("../gaia/47Tuc/shortlist.csv") to df = read_csv(“##YOUR CSV PATH##”)    
-3. Change the percentage, height and width to the desired values    
-4. Open the image (Which will be saved to the directory it was run from)    
+```` 
