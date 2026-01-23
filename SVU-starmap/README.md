@@ -1,29 +1,25 @@
 # SVU Starmap creation
 
-## Matthew_map.py
+This documentation provides instructions on producing a map of stars. The program matthew_map.py will plot any stars provided from a csv file on a black image, creating an image of the stars in space. The following functions documented are all found within mathew_map.py, contributing to making the image.   
 
-#### What it does
-
-This program plots stars from a csv file on a black screen and is saved as a png file within the same file as Mathew_map.py . This program calculates the distance, brightness, and colour of the stars. The brighter stars should appear more vibrant, while the dim stars will be darker and less clear. All stars appear slightly blurry, to make their appearance more realistic. In addition, the stars are coloured to appear the same as their actual colours. The generated image should appear the same as if one was actually looking at the stars through a telescope.
-
-#### How to Use it
-
-1. Download the file and download starmap_fns.py into the same folder as matthew_map.py    
-2. Change the df = read_csv("../gaia/47Tuc/shortlist.csv") to df = read_csv(“##YOUR CSV PATH##”)    
-3. Change the percentage, height and width to the desired values    
-4. Open the image (Which will be saved to the directory it was run from)   
+The overall steps for the process of image creation are:    
+1. downloading matthew_map.py, starmap_fns.py
+2. generating a CSV from the GAIA database
+3. running matthew_map.py to produce an image
 
 ## Generating CSV Files for Globular Clusters
 
 #### What it does
-This step uses a line of code in the terminal to generate CSV files for certain globular clusters, retrieved from a code that pulls data from a database with 1.811 billion stars. 
+This step uses a line of code in the terminal to generate CSV files for certain globular clusters, retrieved from a code that pulls data from a database with 1.811 billion stars. The data in these files can then be plotted into an image.
 
 #### How to Use it
-From GitHub, a file under gaia is named gaia_analyse.py, after downloading this code, upload it onto your Visual Studio Code directory.     
-Open up a terminal in VS Code and insert the following code     
-python gaia_analyse.py --host 192.168.100.220 diagnose "cone_source name of globular cluster x" --output-dir name of globular cluster    
-Where it says ‘name of globular cluster’ replace it with the name of your chosen globular cluster. The ‘x’ represents the radius in degrees around the globular cluster, this can be changed based on your requirements.    
-After writing the required information, press enter and the code should run and generate a subfile in your VS Code directory named after the Globular Cluster. In that subfile there will be different graphs highlighting key information of the Globular CLuster. There will also be a CSV file named shortlist.csv, rename it to the name of the Globular Cluster.csv.     
+1. From GitHub, a file under gaia is named gaia_analyse.py, after downloading this code, upload it onto your Visual Studio Code directory.     
+2. Open up a terminal in VS Code and insert the following code
+'''   
+python gaia_analyse.py --host 192.168.100.220 diagnose "cone_source name of globular cluster x" --output-dir name of globular cluster
+'''
+3. Where it says ‘name of globular cluster’ replace it with the name of your chosen globular cluster. The ‘x’ represents the radius in degrees around the globular cluster, this can be changed based on your requirements.    
+4. After writing the required information, press enter and the code should run and generate a subfile in your VS Code directory named after the Globular Cluster. In that subfile there will be different graphs highlighting key information of the Globular CLuster. There will also be a CSV file named shortlist.csv, rename it to the name of the Globular Cluster.csv.      
 This same code can be used in the terminal for different Globular Clusters over and over again.     
 
 #### Key Mistakes
@@ -40,9 +36,27 @@ Computing Globular Cluster NGC1261 with a 1 degree radius.
 PS C:\Users\muhda\Desktop\fatimahswin> python gaia_analyse.py --host 192.168.100.220 diagnose "cone_source NGC1261 1" --output-dir NGC1261
 ```
 
+## Matthew_map.py
+
+#### What it does
+
+This program plots stars from a csv file on a black screen and saves it as a png file within the directory the script is run from. This program calculates the distance, brightness, and colour of the stars. The brighter stars should appear more vibrant, while the dim stars will be darker and less clear. All stars appear slightly blurry, to make their appearance more realistic. In addition, the stars are coloured to appear the same as their actual colours. The generated image should appear the same as if one was actually looking at the stars through a telescope.
+
+#### How to Use it
+
+1. Download the file and download starmap_fns.py into the same folder as matthew_map.py
+3. Change the df = read_csv("../gaia/47Tuc/shortlist.csv") to df = read_csv(“##YOUR CSV PATH##”)    
+4. Change the percentage, height and width to the desired values    
+5. Open the image (Which will be saved to the directory it was run from)   
+
 ## starmap_fns.py Functions
 
-This is a library of functions used within the matthew_map.py script.
+This is a library of functions used within the matthew_map.py script. To use these functions in a script, the script must be in the same folder as the starmap_fns.py file and the functions must be imported using this line of code:
+
+```
+from starmap_fns import *
+```
+The functions can then be called within the script.
 
 ### Teff To RGB
 
@@ -81,11 +95,9 @@ And returns one output - Teff (contains the temperature of the star, measured in
 
 The function can be used like this:    
 ````
-#start of code    
 from starmap_fns import BPRP_to_teff    
 
-temp = BPRP_to_teff(df.iloc[i]['bp_rp'])    
-#end of code    
+temp = BPRP_to_teff(df.iloc[i]['bp_rp'])      
 ````
 In this example, temp now contains the value of teff, meaning temp is now set to the temperature of the star.    
 
