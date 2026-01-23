@@ -3,9 +3,10 @@
 This documentation provides instructions on producing a map of stars. The program matthew_map.py will plot any stars provided from a csv file on a black image, creating an image of the stars in space. The following functions documented are all found within mathew_map.py, contributing to making the image.   
 
 The overall steps for the process of image creation are:    
-1. downloading matthew_map.py, starmap_fns.py
+1. downloading matthew_map.py and starmap_fns.py 
 2. generating a CSV from the GAIA database
-3. running matthew_map.py to produce an image
+3. removing points outside the globular cluster using one of the filtering algorithms
+4. running matthew_map.py with the filtered csv to produce an image
 
 ## Generating CSV Files for Globular Clusters
 
@@ -69,7 +70,9 @@ This function takes in the Temperature (T effective/Teff) value of a star and co
 The function takes in 1 argument – A Teff Value (Float) in Kelvin (Which can be found using BPRP to Teff)    
 This function returns 1 output – An array of floats of length 3 where the first element is the red value, the second is the green value and the third is the blue between 0-255 inclusive.
 
-#### Example (Assuming the function is in the file) Computing the RGB colours of a star with a Teff of 1000 Kelvin
+#### Example (Assuming the function is in the file) 
+
+Computing the RGB colours of a star with a Teff of 1000 Kelvin
 
 ```
 Teff_value = 1000.0   
@@ -77,9 +80,8 @@ Rgb = Teff_to_RGB(Teff_value)
 print(Rgb) # Output – [255.0,67.92041906,0.0] ([Red,Green,Blue])   
 ```
 If the function is not in the file    
-Import the file where the function is E.g import starmap_fns   
-Instead of doing Rgb = Teff_to_RGB(Teff_value) instead do –   
-Rgb = fileName.Teff_to_RGB(Teff_value) E.g Rgb = starmap_fns.Teff_to_RGB(Teff_value)   
+1. Import the file where the function is E.g import starmap_fns   
+2. Instead of doing Rgb = Teff_to_RGB(Teff_value) instead do – Rgb = fileName.Teff_to_RGB(Teff_value) E.g Rgb = starmap_fns.Teff_to_RGB(Teff_value)   
 
 
 ### BPRP to Teff
