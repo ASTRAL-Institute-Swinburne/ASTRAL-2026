@@ -74,7 +74,7 @@ Rgb = fileName.Teff_to_RGB(Teff_value) E.g Rgb = starmap_fns.Teff_to_RGB(Teff_va
 
 This function calculates the temperature of a star, measured in kelvin, based on its colour. The colour of the star is found under the column named ‘bp_rp’ within the csv file, which defines how red or blue the star is. Cold stars are red, while the hottest stars are blue. 
 
-#### How to use
+#### How to use it
 
 The function uses one argument (Float) - bprp (how red/blue the star is)    
 And returns one output - Teff (contains the temperature of the star, measured in kelvins)    
@@ -91,7 +91,7 @@ In this example, temp now contains the value of teff, meaning temp is now set to
 
 ### lb_to_xy
 
-#### What is does
+#### What it does
 
 This function calculates the x & y coordinates within an array of a point in the sky, given the point’s position in galactic coordinates (L & B) and the size of the array. It returns a tuple of two integers that identifies one position within the array, allowing the point to be assigned to a pixel within an image of that size. This is intended to be used while iterating over a dataframe where L & B are columns in order to generate an image.
 
