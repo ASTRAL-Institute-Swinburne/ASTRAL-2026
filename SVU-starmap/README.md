@@ -139,14 +139,14 @@ img = img.fromarray(img_array, ‘RGB’)
 ## Contributors
 
 #### Mentors:
-Professor Matthew Bailes
-Daniel Rosina
-Lucy O'Shea
-Rebecca Koehne
+Professor Matthew Bailes    
+Daniel Rosina    
+Lucy O'Shea    
+Rebecca Koehne    
 
 #### Cohort:
-Eve Cumming
-Fatimah Adnan
-Jana Azzam
-Prabhjeevan Singh
-Shruthi Sunnoju
+Eve Cumming    
+Fatimah Adnan    
+Jana Azzam    
+Prabhjeevan Singh    
+Shruthi Sunnoju    
