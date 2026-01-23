@@ -59,12 +59,12 @@ This function calculates the x & y coordinates within an array of a point in the
 The function takes eight arguments:    
  - L (float): the point’s galactic longitudinal coordinate   
  - B (float): the point’s galactic latitudinal coordinate    
-Height (int): the height of the array in which the point will be plotted    
-Width (int): the width of the array which the point will be plotted    
-Lmax (float): the maximum longitudinal value of all points being plotted    
-Bmax (float): the maximum latitudinal value of all points being plotted    
-Lmin (float): the minimum longitudinal value of all points being plotted    
-Bmin (float): the minimum latitudinal value of all points being plotted    
+ - Height (int): the height of the array in which the point will be plotted    
+ - Width (int): the width of the array which the point will be plotted    
+ - Lmax (float): the maximum longitudinal value of all points being plotted    
+ - Bmax (float): the maximum latitudinal value of all points being plotted    
+ - Lmin (float): the minimum longitudinal value of all points being plotted    
+ - Bmin (float): the minimum latitudinal value of all points being plotted    
 
 The function can be called like this: lb_to_xy(L, B, height, width, Lmax, Lmin, Bmax, Bmin)    
 This will return a tuple of this form: (x_coordinate, y_coordinate)    
@@ -95,12 +95,15 @@ for i in range(len(df)):
 img = img.fromarray(img_array, ‘RGB’)
 ````
 
-Matthew map
-What it does:
+## Matthew_map.py
+
+#### What it does:
+
 This program plots stars from a csv file on a black screen and is saved as a png file within the same file as Mathew_map.py . This program calculates the distance, brightness, and colour of the stars. The brighter stars should appear more vibrant, while the dim stars will be darker and less clear. All stars appear slightly blurry, to make their appearance more realistic. In addition, the stars are coloured to appear the same as their actual colours. The generated image should appear the same as if one was actually looking at the stars through a telescope.
 
-How to Use it:
-Download the file and download starmap_fns.pys into the same folder as matthew_map.py
-Change the df = read_csv("../gaia/47Tuc/shortlist.csv") to df = read_csv(“##YOUR CSV PATH##”)
-Change the percentage, height and width to the desired amount
-Open the image (Which will be saved to the same folder as the python file)
+#### How to Use it:
+
+1. Download the file and download starmap_fns.py into the same folder as matthew_map.py    
+2. Change the df = read_csv("../gaia/47Tuc/shortlist.csv") to df = read_csv(“##YOUR CSV PATH##”)    
+3. Change the percentage, height and width to the desired values    
+4. Open the image (Which will be saved to the directory it was run from)    
