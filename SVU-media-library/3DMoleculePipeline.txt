@@ -1,0 +1,41 @@
+3D molecule pipelines:
+
+Protein Data Bank (without bonds):
+1. export from Protein Data Bank as .PDB
+2. import .PDB into Blender (need Atomic Blender add-on, can be installed from internet)
+3. export from Blender as .GLB
+
+
+PubChem:
+1. export from PubChem as .SDF
+2. import .SDF into PyMOL
+3. export molecular structure from PyMOL with these settings checked in export window:
+	- PDB Options -> Write multiple bonds
+	- PDB Options -> Write CONECT records
+	- PDB Options -> Write segment identifier
+	- PDB Options -> Retain atom ids
+4. import .PDB into Blender (need Atomic Blender add-on, can be installed from internet)
+5. export from Blender as .GLB
+
+**can be put through UnityMOL after step 3 and exported as .OBJ to make it look more blobby**
+
+
+Protein Data Bank (with bonds):
+1. export from Databank as .PDB
+2. import .PDB into PyMOL
+3. export molecular structure from PyMOL with these settings checked in export window:
+	- PDB Options -> Write multiple bonds
+	- PDB Options -> Write CONECT records
+	- PDB Options -> Write segment identifier
+	- PDB Options -> Retain atom ids
+4. import .PDB into Blender (need Atomic Blender add-on, can be installed from internet)
+5. export from Blender as .GLB <- currently too taxing to actually do :/
+
+
+Protein Data Bank (as ribbons):
+1. export from Databank as .PDB
+2. import .PDB into UnityMOL
+3. export from UnityMOL as .OBJ (or .FBX if too big)
+	***when exporting as .FBX, UnityMOL might think you're using escape codes in the path
+4. import into Blender as .OBJ or .FBX
+5. export from Blender as .GLB <- possibly optional? SVU might be able to tolerate .OBJs
