@@ -27,6 +27,7 @@ t = Time("2025-01-15 12:00:00")
 # Get solar position
 with solar_system_ephemeris.set('builtin'):
     sun = get_body('sun', t, loc)
+    sun = SkyCoord(sun.ra, sun.dec, frame='icrs')
 
 # Compute separation
 sep = psr.separation(sun)
@@ -61,6 +62,7 @@ sun_dec = []
 with solar_system_ephemeris.set('builtin'):
     for t in times:
         sun = get_body('sun', t, loc)
+        sun = SkyCoord(sun.ra, sun.dec, frame='icrs')
         sun_ra.append(sun.ra.deg)
         sun_dec.append(sun.dec.deg)
         sep_angles.append(psr.separation(sun).deg)
@@ -77,6 +79,7 @@ For better performance, pass the full time array at once:
 ```python
 with solar_system_ephemeris.set('builtin'):
     sun = get_body('sun', times, loc)
+    sun = SkyCoord(sun.ra, sun.dec, frame='icrs')
     sep_angles = psr.separation(sun).deg
     sun_ra = sun.ra.deg
     sun_dec = sun.dec.deg
@@ -146,6 +149,7 @@ pulsars = {
 
 with solar_system_ephemeris.set('builtin'):
     sun = get_body('sun', times, loc)
+    sun = SkyCoord(sun.ra, sun.dec, frame='icrs')
     
     plt.figure(figsize=(12, 5))
     for name, psr in pulsars.items():
